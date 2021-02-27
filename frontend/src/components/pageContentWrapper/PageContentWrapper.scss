@@ -1,0 +1,19 @@
+@import "../../styles/flexbox.scss";
+@import "../../styles/colors.scss";
+
+.page-content {
+
+  &__container {
+    padding: 8px;
+    border-radius: 8px;
+    max-width: 60%;
+    margin: 0 auto;
+  }
+
+  &__items {
+    padding: 16px;
+    background: $white;
+    overflow: hidden;
+    border-radius: 8px;
+  }
+}

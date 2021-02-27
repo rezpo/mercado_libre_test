@@ -1,0 +1,72 @@
+@import "../../styles/flexbox.scss";
+@import "../../styles/colors.scss";
+
+.pdp-item {
+  &__container {
+    @include flex-center;
+    align-items: flex-start;
+  }
+
+  &__detail {
+    flex: 2;
+    padding: 0 16px;
+  }
+
+  &__price {
+    flex: 1;
+  }
+
+  &-pic {
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+    width: 100%;
+    max-height: 550px;
+
+    img {
+      width: 60%;
+    }
+  }
+
+  &-description {
+    margin-top: 32px;
+
+    h3 {
+      font-size: 2rem;
+    }
+  }
+
+  &-condition {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: $tertiary-mid;
+  }
+
+  &-name {
+    font-size: 1.4rem
+  }
+
+  &-price {
+    @include flex-start;
+    align-items: flex-start;
+    padding: 16px 0;
+
+    >*+* {
+      margin-left: 2px;
+      padding-top: 2px;
+    }
+
+    span {
+      display: block;
+      font-size: 2.4rem;
+      font-weight: 500;
+    }
+
+    small {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+  }
+}

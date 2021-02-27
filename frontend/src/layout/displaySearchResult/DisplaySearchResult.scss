@@ -1,0 +1,50 @@
+@import "../../styles/global.scss";
+@import "../../styles/colors.scss";
+@import "../../styles/flexbox.scss";
+
+.displayresults {
+  &__content {
+    padding: 8px;
+    border-radius: 8px;
+    max-width: 60%;
+    margin: 0 auto;
+  }
+
+  &__breadcrumbs-container {
+    padding: 8px 0;
+
+    ul>li {
+      color: lighten($color: $tertiary-dark, $amount: 30);
+    }
+  }
+
+  &__items-container {
+    background: $white;
+    overflow: hidden;
+    border-radius: 8px;
+  }
+
+  &__breadcrumb {
+    @include flex-start;
+    padding: 0;
+
+    >*+* {
+      margin-left: 8px;
+
+      &::before {
+        content: ">";
+        display: inline-block;
+        margin-right: 8px;
+      }
+    }
+
+    li:last-child {
+      font-weight: bold;
+    }
+  }
+
+  &__items {
+    margin: 0;
+    padding: 0;
+  }
+}

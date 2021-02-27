@@ -1,0 +1,84 @@
+@import "../../styles/global.scss";
+@import "../../styles/colors.scss";
+@import "../../styles/flexbox.scss";
+
+.resultitem {
+  &__item {
+    @include flex-between;
+    align-items: flex-start;
+    margin: 0;
+    padding: 8px;
+    cursor: pointer;
+    background: $white;
+    border-bottom: 1px solid $tertiary;
+    transition: .2s ease-in-out;
+
+    &:hover {
+      background: darken($color: $white, $amount: 2);
+    }
+
+    .item-info {
+      @include flex-start;
+      align-items: flex-start;
+      width: 75%;
+
+      >*+* {
+        padding-left: 8px;
+      }
+    }
+
+    .item-pic {
+      display: grid;
+      place-items: center;
+      width: 140px;
+      height: 140px;
+      overflow: hidden;
+      border-radius: 4px;
+      background: $white;
+
+      img {
+        width: 100%;
+      }
+    }
+
+    .item-detail {
+      max-width: 50%;
+    }
+
+    .item-price {
+      font-size: 2rem;
+
+      &__container {
+        @include flex-start;
+
+        >*+* {
+          margin-left: 8px;
+        }
+      }
+    }
+
+    .item-title {
+      font-size: 1.3rem;
+    }
+
+    .item-new {
+      position: relative;
+      height: 20px;
+      width: 20px;
+      border-radius: 999rem;
+      background: $quaternary;
+
+      svg {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+
+    .item-shipping {
+      width: 25%;
+      padding: 16px 0;
+    }
+  }
+}

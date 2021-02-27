@@ -1,0 +1,41 @@
+@import "../styles/flexbox.scss";
+@import "../styles/colors.scss";
+
+@mixin btn {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  padding: 8px 16px;
+  color: $white;
+  background: $white;
+  font-weight: 600;
+  font-size: 1.3rem;
+  border-radius: 4px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.btn-primary {
+
+  &--regular {
+    @include btn;
+    background: $secondary;
+    transition: .2s ease-in-out;
+
+    &:hover {
+      background: darken($color: $secondary, $amount: 4)
+    }
+  }
+
+  &--deactive {
+    @include btn;
+    background: $tertiary-mid;
+    color: $tertiary-dark;
+    transition: .2s ease-in-out;
+
+    &:hover {
+      background: darken($color: $tertiary-dark, $amount: 4)
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "name": "ml-test",
+  "version": "1.0.0",
+  "description": "Backend for Mercado Libre test",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "author": "Daniel Rebolledo",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "express": "^4.17.1",
+    "node-fetch": "^2.6.1",
+    "nodemon": "^2.0.7"
+  }
+}

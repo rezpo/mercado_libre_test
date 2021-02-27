@@ -1,0 +1,39 @@
+@import "./colors.scss";
+
+*,
+html {
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  font-size: 12px;
+  font-family: 'Roboto', sans-serif;
+  color: $tertiary-dark;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: darkgoldenrod;
+    border-radius: 5rem;
+  }
+
+  :focus {
+    outline: none;
+  }
+}
+
+body {
+  padding: 0;
+  background: $tertiary;
+}
+
+p {
+  line-height: 18px;
+  font-size: 1.1rem;
+  color: $tertiary-mid;
+}
