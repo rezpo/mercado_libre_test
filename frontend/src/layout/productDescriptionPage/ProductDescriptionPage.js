@@ -7,7 +7,7 @@ import SEOHelmet from "../../components/seoHelmet/SEOHelmet";
 import ErrorMessageWrapper from "../../components/errorMessageWrapper/ErrorMessageWrapper";
 import "./ProductDescriptionPage.scss";
 
-const ProductDescriptionPage = ({ match }) => {
+const ProductDescriptionPage = ({ match, history }) => {
   const [itemRequested, setItemRequested] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
   const [showError, setShowError] = useState(false);
@@ -45,16 +45,25 @@ const ProductDescriptionPage = ({ match }) => {
     }
   };
 
-  const errorMessage = () => (
-    <div>
-      <h1>UPS!...</h1>
-      <p>
-        Al parecer este producto no tiene información disponible, en unos
-        segundos te redireccionaremos a los resultados de tu busqueda
-      </p>
-    </div>
-  );
-
+  const errorMessage = () => {
+    return (
+      <div className="pdp--error-message">
+        <h1>UPS!...</h1>
+        <p>
+          Al parecer hubo algún problema y no tenemos información del producto
+          que buscas, prueba con otra busqueda
+        </p>
+        <div className="go-home">
+          <button
+            onClick={() => history.push("/")}
+            className="btn-primary--regular"
+          >
+            Volver al inicio
+          </button>
+        </div>
+      </div>
+    );
+  };
   return (
     <PageContentWrapper>
       <SEOHelmet
@@ -71,7 +80,7 @@ const ProductDescriptionPage = ({ match }) => {
       />
       {validateItem()}
       <Loading visible={isVisible} />
-      <ErrorMessageWrapper children={errorMessage} visible={showError} />
+      <ErrorMessageWrapper children={errorMessage()} visible={showError} />
     </PageContentWrapper>
   );
 

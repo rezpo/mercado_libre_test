@@ -57,4 +57,24 @@
       flex: 1;
     }
   }
+
+  &--error-message {
+    text-align: center;
+
+    h1 {
+      font-size: 3rem;
+      font-weight: bold;
+    }
+
+    p {
+      text-align: center;
+      font-size: 1.5rem;
+      line-height: 2rem;
+    }
+
+    .go-home {
+      width: 40%;
+      margin: 0 auto;
+    }
+  }
 }
