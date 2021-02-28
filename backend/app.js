@@ -65,7 +65,7 @@ app.get("/api/items/:id", async (req, res) => {
           currency: currency_id,
           amount: checkInt(price) ? price : Math.floor(price),
           decimals: checkInt(price)
-            ? 0
+            ? "00"
             : parseInt((price % 1).toFixed(2).split(".")[1]),
         },
         picture: pictures[0].secure_url,
