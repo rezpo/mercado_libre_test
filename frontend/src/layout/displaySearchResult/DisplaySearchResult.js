@@ -4,6 +4,7 @@ import { sortBy } from "lodash";
 import BreadCrumb from "../../components/breadcrumb/BreadCrumb";
 import ResultItemWrapper from "../../components/resultItemWrapper/ResultItemWrapper";
 import PageContentWrapper from "../../components/pageContentWrapper/PageContentWrapper";
+import SEOHelmet from "../../components/seoHelmet/SEOHelmet";
 import "./DisplaySearchResult.scss";
 
 const DisplaySearchResult = ({ history, location }) => {
@@ -40,6 +41,18 @@ const DisplaySearchResult = ({ history, location }) => {
       breadcrumb={renderBreadCrumb()}
       key={results.categories}
     >
+      <SEOHelmet
+        title={
+          results
+            ? "Busca y encuentra miles de productos de la comunidad mas grande de compra venta en América Latina"
+            : "Al parecer no hay nada aquí"
+        }
+        description={
+          results
+            ? `Hemos encontrado 4 productos para tu busqueda - ${query}`
+            : "Al parecer no hemos encontrado nada"
+        }
+      />
       <ul className="displayresults__items">
         {results.items.map((item) => {
           return (

@@ -1,7 +1,7 @@
-@import "../../styles/colors.scss";
+@import "../../styles/global.scss";
 
 .searchbar {
-  padding: 8px 0;
+  padding: unit_x(1) 0;
   width: 100%;
   background: $primary;
 
@@ -14,7 +14,7 @@
     margin: 0 auto;
 
     >*+* {
-      margin-left: 8px;
+      margin-left: unit_x(1);
     }
   }
 
@@ -41,7 +41,7 @@
 
     .searchbar-input {
       border-radius: 4px;
-      padding: 0 16px;
+      padding: 0 unit_x(2);
       border: none;
       height: 38px;
       width: 100%;
@@ -59,7 +59,7 @@
       display: grid;
       place-content: center;
       background: $tertiary;
-      padding: 8px;
+      padding: unit_x(1);
       border: none;
       outline: none;
       height: 38px;

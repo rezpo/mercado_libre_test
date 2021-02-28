@@ -1,6 +1,4 @@
-@import "../../styles/flexbox.scss";
-@import "../../styles/colors.scss";
-@import "../../styles/buttons.scss";
+@import "../../styles/global.scss";
 
 .pdp {
   &__container {
@@ -29,7 +27,7 @@
 
     &-condition {
       display: block;
-      margin-bottom: 8px;
+      margin-bottom: unit_x(1);
     }
 
     &-name {
@@ -39,7 +37,7 @@
     &-price {
       @include flex-start;
       align-items: flex-start;
-      padding: 16px 0;
+      padding: unit_x(2) 0;
 
       span {
         display: block;
@@ -52,7 +50,7 @@
   &-item {
     &__detail {
       flex: 2;
-      padding: 0 16px;
+      padding: 0 unit_x(2);
     }
 
     &__price {

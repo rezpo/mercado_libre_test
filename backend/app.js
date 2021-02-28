@@ -19,15 +19,31 @@ app.get("/api/items/:id", async (req, res) => {
   const itemID = req.params.id;
 
   // AXIOS REQUEST ENDPOINTS
-  const getItem = `https://api.mercadolibre.com/items/${itemID}`;
-  const getItemDetail = `https://api.mercadolibre.com/items/${itemID}/description`;
+  const itemEndPoint = `https://api.mercadolibre.com/items/${itemID}`;
+  const itemDescriptionEndPoint = `https://api.mercadolibre.com/items/${itemID}/description`;
 
   // AXIOS REQUEST
-  try {
-    const [item, itemDescription] = await axios.all([
-      axios.get(getItem),
-      axios.get(getItemDetail),
-    ]);
+  let itemData;
+  let itemDescriptionData;
+
+  await axios.get(itemEndPoint).then(async (response) => {
+    if (response.status === 200) {
+      await axios
+        .get(itemDescriptionEndPoint)
+        .then((response) => {
+          itemDescriptionData = response.data;
+        })
+        .then(() => {
+          console.log(itemDescriptionData);
+        })
+        .catch((error) => {
+          if (error.response.data.status === 404) {
+            itemDescriptionData = "NO_DESCRIPTION";
+          } else {
+            console.log(error.response.data);
+          }
+        });
+    }
 
     const {
       id,
@@ -38,10 +54,9 @@ app.get("/api/items/:id", async (req, res) => {
       condition,
       shipping,
       sold_quantity,
-    } = item.data;
+    } = response.data;
 
-    // RESPONSE JSON
-    const itemData = {
+    itemData = {
       author: { name: "Daniel", lastname: "Rebolledo" },
       item: {
         id,
@@ -57,13 +72,15 @@ app.get("/api/items/:id", async (req, res) => {
         condition,
         free_shipping: shipping.free_shipping,
         sold_quantity,
-        description: itemDescription.data.plain_text,
+        description:
+          itemDescriptionData === "NO_DESCRIPTION"
+            ? "Producto sin descripción"
+            : itemDescriptionData.plain_text,
       },
     };
+
     res.json(itemData);
-  } catch (error) {
-    console.log(error.response.data);
-  }
+  });
 });
 
 // REQUEST FOR PRODUCT BY QUERY

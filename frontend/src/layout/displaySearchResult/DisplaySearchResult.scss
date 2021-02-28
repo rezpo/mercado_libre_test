@@ -1,17 +1,15 @@
 @import "../../styles/global.scss";
-@import "../../styles/colors.scss";
-@import "../../styles/flexbox.scss";
 
 .displayresults {
   &__content {
-    padding: 8px;
-    border-radius: 8px;
+    padding: unit_x(1);
+    border-radius: unit_x(1);
     max-width: 60%;
     margin: 0 auto;
   }
 
   &__breadcrumbs-container {
-    padding: 8px 0;
+    padding: unit_x(1) 0;
 
     ul>li {
       color: lighten($color: $tertiary-dark, $amount: 30);
@@ -21,7 +19,7 @@
   &__items-container {
     background: $white;
     overflow: hidden;
-    border-radius: 8px;
+    border-radius: unit_x(1);
   }
 
   &__breadcrumb {
@@ -29,12 +27,12 @@
     padding: 0;
 
     >*+* {
-      margin-left: 8px;
+      margin-left: unit_x(1);
 
       &::before {
         content: ">";
         display: inline-block;
-        margin-right: 8px;
+        margin-right: unit_x(1);
       }
     }
 

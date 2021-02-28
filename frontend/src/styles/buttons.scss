@@ -1,11 +1,12 @@
-@import "../styles/flexbox.scss";
-@import "../styles/colors.scss";
+@import "./colors.scss";
+@import "./flexbox.scss";
+@import "./variables.scss";
 
 @mixin btn {
   display: grid;
   place-items: center;
   width: 100%;
-  padding: 8px 16px;
+  padding: unit_x(1) unit_x(2);
   color: $white;
   background: $white;
   font-weight: 600;

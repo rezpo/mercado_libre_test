@@ -28,7 +28,7 @@ const PdpItemWrapper = (props) => {
         <small className="pdp-item-condition">
           {condition === "new" ? "Nuevo" : "Usado"} - {sold_quantity} vendidos
         </small>
-        <strong className="pdp-item-name">{title}</strong>
+        <h1 className="pdp-item-name">{title}</h1>
         <span className="pdp-item-price">
           <NumberFormat
             value={amount}
