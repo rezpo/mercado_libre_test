@@ -1,0 +1,6 @@
+$base-unit: 8px;
+
+@function unit_x($scale) {
+  $base: $base-unit * $scale;
+  @return $base;
+}
