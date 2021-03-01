@@ -4,11 +4,13 @@ import { sortBy } from "lodash";
 import BreadCrumb from "../../components/breadcrumb/BreadCrumb";
 import ResultItemWrapper from "../../components/resultItemWrapper/ResultItemWrapper";
 import PageContentWrapper from "../../components/pageContentWrapper/PageContentWrapper";
+import ErrorMessageWrapper from "../../components/errorMessageWrapper/ErrorMessageWrapper";
 import SEOHelmet from "../../components/seoHelmet/SEOHelmet";
 import "./DisplaySearchResult.scss";
 
 const DisplaySearchResult = ({ history, location }) => {
   const [results, setResults] = useState(null);
+  const [showError, setShowError] = useState(false);
   const [queryItemId, setQueryItemId] = useState(false);
   const params = new URLSearchParams(location.search);
   const query = params.get("search");
@@ -17,12 +19,19 @@ const DisplaySearchResult = ({ history, location }) => {
     let execute = true;
     if (execute) {
       getMatchByQuery(query);
+    }
+    return () => (execute = false);
+  }, [query]);
+
+  useEffect(() => {
+    let execute = true;
+    if (execute) {
       if (queryItemId && !results) {
         history.push(`items/${query}`);
       }
     }
     return () => (execute = false);
-  }, [results, history, query, queryItemId]);
+  }, [results, queryItemId]);
 
   const renderBreadCrumb = () => {
     return (
@@ -32,6 +41,26 @@ const DisplaySearchResult = ({ history, location }) => {
             return <BreadCrumb name={category.name} key={category.name} />;
           })}
         </ul>
+      </div>
+    );
+  };
+
+  const errorMessage = () => {
+    return (
+      <div className="pdp--error-message">
+        <h1>¡WOW! Esto es vergonsozo</h1>
+        <p>
+          Al parecer no encontramos ningún producto que concuerde con tu
+          busqueda.
+        </p>
+        <div className="go-home">
+          <button
+            onClick={() => setShowError(false)}
+            className="btn-primary--regular"
+          >
+            Realizar nueva busqueda
+          </button>
+        </div>
       </div>
     );
   };
@@ -49,7 +78,7 @@ const DisplaySearchResult = ({ history, location }) => {
         }
         description={
           results
-            ? `Hemos encontrado 4 productos para tu busqueda - ${query}`
+            ? `Hemos encontrado ${results.items.length} productos para tu busqueda - ${query}`
             : "Al parecer no hemos encontrado nada"
         }
       />
@@ -71,12 +100,20 @@ const DisplaySearchResult = ({ history, location }) => {
         })}
       </ul>
     </PageContentWrapper>
-  ) : null;
+  ) : (
+    <ErrorMessageWrapper children={errorMessage()} visible={showError} />
+  );
 
-  async function getMatchByQuery(query) {
-    await queryResult(query)
+  function getMatchByQuery(query) {
+    queryResult(query)
       .then((res) => {
-        if (res.items[0].no_matches && query.includes(res.items[0].site_id)) {
+        if (res.no_matches && res.message) {
+          setResults(null);
+          setShowError(true);
+        } else if (
+          res.items[0].no_matches &&
+          query.includes(res.items[0].site_id)
+        ) {
           setResults(null);
           setQueryItemId(true);
         } else {
