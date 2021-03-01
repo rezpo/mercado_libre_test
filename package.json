@@ -15,6 +15,7 @@
   "author": "Daniel Rebolledo",
   "license": "ISC",
   "dependencies": {
-    "concurrently": "^6.0.0"
+    "concurrently": "^6.0.0",
+    "react-helmet-async": "^1.0.7"
   }
 }

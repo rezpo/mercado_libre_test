@@ -33,9 +33,6 @@ app.get("/api/items/:id", async (req, res) => {
         .then((response) => {
           itemDescriptionData = response.data;
         })
-        .then(() => {
-          console.log(itemDescriptionData);
-        })
         .catch((error) => {
           if (error.response.data.status === 404) {
             itemDescriptionData = "NO_DESCRIPTION";
@@ -91,66 +88,76 @@ app.get("/api/items", async (req, res) => {
   // AXIOS REQUEST ENDPOINT
   const getItemsByQuery = "https://api.mercadolibre.com/sites/MLA/search";
 
+  const itemsFound = [];
+  const categoriesFound = [];
+
   // AXIOS REQUEST
-  try {
-    const getQueryResult = await axios.get(getItemsByQuery, {
+  await axios
+    .get(getItemsByQuery, {
       params: { q: queryReq, limit: 4 },
-    });
+    })
+    .then((response) => {
+      // INITIAL STATE OF RESPONSE JSON
 
-    // INITIAL STATE OF RESPONSE JSON
-    const itemsFound = [];
-    const categoriesFound = [];
+      const { results, available_filters, site_id } = response.data;
 
-    const { results, available_filters, site_id } = getQueryResult.data;
+      // VALIDATE RESPONSE
+      if (results.length && available_filters.length) {
+        const filterCategories = available_filters.filter(
+          (categorie) => categorie.id === "category"
+        );
 
-    // VALIDATE RESPONSE
-    if (results.length && available_filters.length) {
-      const filterCategories = available_filters.filter(
-        (categorie) => categorie.id === "category"
-      );
-      const getCategories = filterCategories[0].values.map((category) => ({
-        name: category.name,
-        results: category.results,
-      }));
+        const getCategories = filterCategories[0].values.map((category) => ({
+          name: category.name,
+          results: category.results,
+        }));
 
-      categoriesFound.push(...getCategories);
+        categoriesFound.push(...getCategories);
 
-      results.forEach((item) => {
-        itemsFound.push({
-          id: item.id,
-          title: item.title,
-          price: {
-            currency: item.currency_id,
-            amount: checkInt(item.price) ? item.price : Math.floor(item.price),
-            decimals: checkInt(item.price)
-              ? 0
-              : parseInt((item.price % 1).toFixed(2).split(".")[1]),
-          },
-          picture: item.thumbnail,
-          condition: item.condition,
-          free_shipping: item.shipping.free_shipping,
-          state_address: item.address.state_name,
+        results.forEach((item) => {
+          itemsFound.push({
+            id: item.id,
+            title: item.title,
+            price: {
+              currency: item.currency_id,
+              amount: checkInt(item.price)
+                ? item.price
+                : Math.floor(item.price),
+              decimals: checkInt(item.price)
+                ? 0
+                : parseInt((item.price % 1).toFixed(2).split(".")[1]),
+            },
+            picture: item.thumbnail,
+            condition: item.condition,
+            free_shipping: item.shipping.free_shipping,
+            state_address: item.address.state_name,
+          });
         });
+      } else if (!results.length || !available_filters.length) {
+        itemsFound.push({ site_id, no_matches: true, query: req.query.q });
+        categoriesFound.push("NO_MATCHES");
+      }
+
+      // BUILD RESPONSE JSON
+      const itemsData = {
+        author: {
+          name: "Daniel",
+          lastname: "Rebolledo",
+        },
+        categories: categoriesFound,
+        items: [...itemsFound],
+      };
+
+      res.json(itemsData);
+    })
+    .catch((error) => {
+      console.log(error);
+      res.json({
+        no_matches: true,
+        query: req.query.q,
+        message: "No hay productos que concuerden con tu busqueda",
       });
-    } else if (!results.length || !available_filters.length) {
-      itemsFound.push({ site_id, no_matches: true, query: req.query.q });
-      categoriesFound.push("NO_MATCHES");
-    }
-
-    // BUILD RESPONSE JSON
-    const itemsData = {
-      author: {
-        name: "Daniel",
-        lastname: "Rebolledo",
-      },
-      categories: categoriesFound,
-      items: [...itemsFound],
-    };
-
-    res.json(itemsData);
-  } catch (error) {
-    console.log(error.response.data);
-  }
+    });
 });
 
 app.listen(5000);

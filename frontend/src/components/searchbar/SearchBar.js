@@ -29,7 +29,7 @@ const SearchBar = (props) => {
             type="text"
             placeholder="Buscar productos, marcas y mas..."
             name="searchBar"
-            ref={register}
+            ref={register({ required: true })}
             onFocus={(e) => resetInput(e)}
           />
           <button type="submit" className="search-btn">
